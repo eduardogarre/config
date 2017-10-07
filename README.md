@@ -4,10 +4,18 @@ en Español.
 
 
 ## Resumen:
-Esta herramienta interpreta y almacena la información como una lista de claves
-estructuradas jerárquicamente formando un árbol. Como almacén de la información,
+El comando `config` interpreta y almacena la información como una lista de claves
+estructuradas jerárquicamente, formando un árbol. Como almacén de la información,
 usa el sistema de archivos habitual de nuestro ordenador.
 Una clave `abc.def.ghi` se tratará como el archivo `abc/def/ghi`.
+
+Hay 4 posibles tipos de datos: `texto`, `booleano`, `entero` y `real`.
+`config` puede deducir el tipo a partir del dato que has introducido, pero si
+precisas establecer el tipo por tí mismo, puedes usar las siguientes opciones:
+1. texto `-t` o `--texto`
+2. booleano `-b` o `--booleano`
+3. entero `-e` o `--entero`
+4. real `-r` o `--real`
 
 Hay 2 posibles almacenes de información:
 1. Global o del sistema, en `/cfg`
@@ -25,9 +33,11 @@ contenido.
 
 ## Compilación e instalación:
 `config` se ha desarrollado con el lenguaje `D`, usando el gestor de proyectos
-`dub`. Para compilar el proyecto, ejecuta `dub build --build=release --force`.
-Se generará un único ejecutable, llamado `config`. Cópialo al directorio de tu
-sistema que desees.
+`dub`. Para compilar el proyecto necesitas instalar un compilador de `D` (por
+ejemplo `dmd`, `ldc` o `gdc`) y el gestor de proyectos `dub`.
+Una vez hayas instalado las dependencias, ejecuta `dub build --build=release --force`.
+Se generará un único ejecutable, llamado `config`. Para instalar `config`, mueve
+el ejecutable a una carpeta listada en tu variable de entorno `PATH`.
 
 
 ## Uso:
@@ -46,7 +56,7 @@ config [--charlatan] --version
 ```
  -a --ayuda           Muestra esta pantalla.
  -v --version         Muestra la version.
- -t --texto           <valor> es 'texto' (es el tipo asumido).
+ -t --texto           <valor> es 'texto'.
  -b --booleano        <valor> es 'booleano'
  -e --entero          <valor> es 'entero'
  -r --real            <valor> es 'real'
@@ -78,7 +88,8 @@ config [--charlatan] --version
                  En cualquier otro caso, se accede a las claves del usuario
                  actual, en " ~ RUTA ~ ".
 
- <valor>         Texto | Entero | Real | Booleano.
+ <valor>         El dato que desees. Se interpretará como uno de los 4 tipos:
+                 Texto | Entero | Real | Booleano.
 ```
 
 ## Ejemplos:
