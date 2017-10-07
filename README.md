@@ -24,7 +24,10 @@ contenido.
 
 Hay 4 posibles tipos de datos:
 1. `texto`    => El tipo predeterminado.
-2. `booleano` => sí/Sí/SÍ/SI/no/No/NO/cierto/Cierto/CIERTO/falso/Falso/FALSO
+2. `booleano` => `sí` `Sí` `SÍ` `SI`
+                 `no` `No` `NO`
+                 `cierto` `Cierto` `CIERTO`
+                 `falso` `Falso` `FALSO`
 3. `entero`   => `-288`, `0`, `365` 
 4. `real`     => `3.14`, `9.1234E-18`
 
