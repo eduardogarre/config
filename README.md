@@ -1,5 +1,6 @@
 # config
-Herramienta de control y configuración en Español.
+`config` es una herramienta de control y configuración para sistemas operativos,
+en Español.
 
 
 ## Resumen:
@@ -13,8 +14,8 @@ Hay 2 posibles almacenes de información:
 2. Local o del usuario actual, en `~/.config`
 
 De forma predeterminada se asume que el usuario accede a su información local:
-`config lee usr.nombre` accede al archivo `~/.config/usr/nombre` y nos muestra su
-contenido.
+`config lee usr.nombre` accede al archivo `~/.config/usr/nombre` y nos muestra
+su contenido.
 
 Si se pretende acceder a la configuración global o del sistema, el primer nombre
 de la clave debe ser `sis`:
