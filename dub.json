@@ -1,0 +1,12 @@
+{
+	"name": "config",
+	"authors": [
+		"Eduardo"
+	],
+	"dependencies": {
+		"docopt": ">=0.6.1-b.6 <0.7.0"
+	},
+	"description": "Herramienta de configuración",
+	"copyright": "Copyright © 2017, Eduardo",
+	"license": "ISC"
+}
