@@ -5,7 +5,7 @@ información o configuraciones. Su interfaz está completamente en Español.
 
 ## Resumen:
 El comando `config` interpreta y almacena la información como **parejas de claves-valores**.
-La lista da claves se organiza jerárquicamente, formando un árbol. Como almacén de la
+La lista de claves se organiza jerárquicamente, formando un árbol. Como almacén de la
 información, `config` usa el sistema de archivos habitual de nuestro ordenador.
 Una clave `abc.def.ghi` se tratará como el archivo `abc/def/ghi`.
 Como inconveniente, cada archivo final se usará para almacenar el valor de una única
