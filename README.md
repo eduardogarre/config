@@ -113,7 +113,9 @@ config [--charlatan] --version
 `config pon sis.hostname nombredelsistema` Guarda `"nombredelsistema"` en `/cfg/hostname`
 
 `config pon usr.askpwd sí` Guarda el booleano `sí` (tipo automático) en `~/.config/usr/adkpwd`
+
 `config pon usr.askpwd sí -b` Guarda el booleano `sí` en `~/.config/usr/adkpwd`
+
 `config pon usr.askpwd sí -t` Guarda el texto `"sí"` en `~/.config/usr/adkpwd`
 
 `config mv usr.askpwd usr.pwd` Cambia el nombre de `usr.askpwd` por el de `usr.pwd`.
