@@ -23,6 +23,13 @@ de la clave debe ser `sis`:
 contenido.
 
 
+## Compilación e instalación:
+`config` se ha desarrollado con el lenguaje `D`, usando el gestor de proyectos
+`dub`. Para compilar el proyecto, ejecuta `dub build --build=release --force`.
+Se generará un único ejecutable, llamado `config`. Cópialo al directorio de tu
+sistema que desees.
+
+
 ## Uso:
 ```
 config [--info | --charlatan] (lista | ls) <clave>
