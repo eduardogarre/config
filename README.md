@@ -1,13 +1,15 @@
 # config
 `config` es un programa para línea de comandos que sirve para gestionar
-información y configuraciones. Su interfaz está completamente en Español.
+información o configuraciones. Su interfaz está completamente en Español.
 
 
 ## Resumen:
-El comando `config` interpreta y almacena la información como una lista de claves
-estructuradas jerárquicamente, formando un árbol. Como almacén de la información,
-usa el sistema de archivos habitual de nuestro ordenador.
+El comando `config` interpreta y almacena la información como **parejas de claves-valores**.
+La lista da claves se organiza jerárquicamente, formando un árbol. Como almacén de la
+información, `config` usa el sistema de archivos habitual de nuestro ordenador.
 Una clave `abc.def.ghi` se tratará como el archivo `abc/def/ghi`.
+Como inconveniente, cada archivo final se usará para almacenar el valor de una única
+clave. Por este motivo, la densidad de la información en el disco suele ser baja.
 
 Hay 2 posibles almacenes de información:
 1. Global o del sistema, en `/cfg`
