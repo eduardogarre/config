@@ -35,9 +35,14 @@ contenido.
 `config` se ha desarrollado con el lenguaje `D`, usando el gestor de proyectos
 `dub`. Para compilar el proyecto necesitas instalar un compilador de `D` (por
 ejemplo `dmd`, `ldc` o `gdc`) y el gestor de proyectos `dub`.
-Una vez hayas instalado las dependencias, ejecuta `dub build --build=release --force`.
-Se generará un único ejecutable, llamado `config`. Para instalar `config`, mueve
-el ejecutable a una carpeta listada en tu variable de entorno `PATH`.
+
+Una vez hayas instalado estos requisitos, ejecuta `dub build --build=release --force`.
+`dub` descargará la única dependencia del proyecto, `docopt.d`, para después
+ejecutar el compilador que hayas instalado para generarar un único ejecutable,
+llamado `config`.
+
+Para instalar `config`, mueve el ejecutable a una carpeta listada en tu variable
+de entorno `PATH`.
 
 
 ## Uso:
