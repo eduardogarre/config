@@ -1,4 +1,4 @@
-# cfg
+# config
 Herramienta de control y configuración en Español.
 
 
