@@ -1,5 +1,5 @@
 # config
-`config` es un programa para línea de comandos que sirve para guardar y coger
+`config` es un programa para línea de comandos que sirve para gestionar
 información y configuraciones. Su interfaz está completamente en Español.
 
 
@@ -103,21 +103,25 @@ config [--charlatan] --version
 ```
 
 ## Ejemplos:
-`config ls sis` Lista todas las claves globales.
+`config ls sis` Lista todas las claves globales, en `/cfg/`.
 
-`config ls` Lista todas las claves locales.
+`config lista` Lista todas las claves locales, en `~/.config/`.
 
-`config pon sis.hostname nombredelsistema` Guarda `"nombredelsistema"` en `/cfg/hostname`
+`config lee sis.fecha` Muestra el contenido de la clave guardada en `/cfg/fecha`.
 
-`config pon usr.askpwd sí` Guarda el booleano `sí` (tipo automático) en `~/.config/usr/adkpwd`
+`config ls sis.fecha` Lista todas las claves bajo `sis.fecha`. Si `sis.fecha` es una clave "final", se comporta como `config lee sis.fecha`.
 
-`config pon usr.askpwd sí -b` Guarda el booleano `sí` en `~/.config/usr/adkpwd`
+`config pon sis.hostname nombredelsistema` Guarda `"nombredelsistema"` en `/cfg/hostname`.
+
+`config pon usr.askpwd sí` Guarda el booleano `sí` (tipo automático) en `~/.config/usr/adkpwd`.
+
+`config pon usr.askpwd sí -b` Guarda el booleano `sí` en `~/.config/usr/adkpwd`.
 
 `config pon usr.askpwd sí -t` Guarda el texto `"sí"` en `~/.config/usr/adkpwd`
 
 `config mv usr.askpwd usr.pwd` Cambia el nombre de `usr.askpwd` por el de `usr.pwd`.
 
-`config borra usr.pwd` Borra la clave `usr.pwd`
+`config borra usr.pwd` Borra la clave `usr.pwd`.
 
 
 ## Licencia:
