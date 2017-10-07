@@ -9,14 +9,6 @@ estructuradas jerárquicamente, formando un árbol. Como almacén de la informac
 usa el sistema de archivos habitual de nuestro ordenador.
 Una clave `abc.def.ghi` se tratará como el archivo `abc/def/ghi`.
 
-Hay 4 posibles tipos de datos: `texto`, `booleano`, `entero` y `real`.
-`config` puede deducir el tipo a partir del dato que has introducido, pero si
-precisas establecer el tipo por tí mismo, puedes usar las siguientes opciones:
-1. texto `-t` o `--texto`
-2. booleano `-b` o `--booleano`
-3. entero `-e` o `--entero`
-4. real `-r` o `--real`
-
 Hay 2 posibles almacenes de información:
 1. Global o del sistema, en `/cfg`
 2. Local o del usuario actual, en `~/.config`
@@ -29,6 +21,19 @@ Si se pretende acceder a la configuración global o del sistema, el primer nombr
 de la clave debe ser `sis`:
 `config ls sis.hostname` accede al archivo `/cfg/hostname` y nos muestra su
 contenido.
+
+Hay 4 posibles tipos de datos:
+1. `texto`    => El tipo predeterminado.
+2. `booleano` => sí/Sí/SÍ/SI/no/No/NO/cierto/Cierto/CIERTO/falso/Falso/FALSO
+3. `entero`   => `-288`, `0`, `365` 
+4. `real`     => `3.14`, `9.1234E-18`
+
+`config` puede deducir el tipo a partir del dato que has introducido, pero si
+precisas establecer el tipo por tí mismo, puedes usar las siguientes opciones:
+1. texto    `-t` o `--texto`
+2. booleano `-b` o `--booleano`
+3. entero   `-e` o `--entero`
+4. real     `-r` o `--real`
 
 
 ## Compilación e instalación:
@@ -102,13 +107,15 @@ config [--charlatan] --version
 
 `config ls` Lista todas las claves locales.
 
-`config pon sis.hostname nombredelsistema` Establece el nombre del sistema
+`config pon sis.hostname nombredelsistema` Guarda `"nombredelsistema"` en `/cfg/hostname`
 
-`config pon usr.askpwd sí -b` ¿Exigir contraseña para entrar a nuestra sesión? Sí.
+`config pon usr.askpwd sí` Guarda el booleano `sí` (tipo automático) en `~/.config/usr/adkpwd`
+`config pon usr.askpwd sí -b` Guarda el booleano `sí` en `~/.config/usr/adkpwd`
+`config pon usr.askpwd sí -t` Guarda el texto `"sí"` en `~/.config/usr/adkpwd`
 
-`config mv usr.askpwd usr.pwd` Cambiar el nombre de `usr.askpwd` por el de `usr.pwd`.
+`config mv usr.askpwd usr.pwd` Cambia el nombre de `usr.askpwd` por el de `usr.pwd`.
 
- `config borra usr.pwd` Borra la clave `usr.pwd`
+`config borra usr.pwd` Borra la clave `usr.pwd`
 
 
 ## Licencia:
