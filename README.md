@@ -97,9 +97,9 @@ config [--charlatan] --version
 #### Argumentos:
 ```
  <clave>         Si <clave> comienza por 'sis', se accede a las claves
-                 globales del sistema, en " ~ SISTEMA ~ ".
+                 globales del sistema, en `/cfg`.
                  En cualquier otro caso, se accede a las claves del usuario
-                 actual, en " ~ RUTA ~ ".
+                 actual, en `~/.config`.
 
  <valor>         El dato que desees. Se interpretará como uno de los 4 tipos:
                  Texto | Entero | Real | Booleano.
