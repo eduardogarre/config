@@ -24,11 +24,14 @@ int main(string[] args)
 	Respuesta respuesta;
 	
 	respuesta = new Datos().ejecuta(["", "pon", "hola.k.ase.x.ay.ask", "sí", "-b"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["", "lee", "hola.k.ase.x.ay.ask"]); writeln(respuesta);
 	respuesta = new Datos().ejecuta(["", "mv", "hola.k.ase.x.ay.ask", "hola.k.ase.asky"]); writeln(respuesta);
-	respuesta = new Datos().ejecuta(["", "pon", "hola.k.ase.x.ay.asky", "sí", "-b"]); writeln(respuesta);
-	//respuesta = new Datos().ejecuta(["", "qt", "hola.k.ase.x.ay.ask"]); writeln(respuesta);
-	respuesta = new Datos().ejecuta(["", "qt", "hola.k.ase.x.ay.asky"]); writeln(respuesta);
 	respuesta = new Datos().ejecuta(["", "qt", "hola.k.ase.asky"]); writeln(respuesta);
+
+	respuesta = new Datos().ejecuta(["", "pon", "sis.hola.k.ase.x.ay.ask", "sí", "-b"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["", "lee", "sis.hola.k.ase.x.ay.ask"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["", "mv", "sis.hola.k.ase.x.ay.ask", "hola.k.ase.asky"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["", "qt", "sis.hola.k.ase.asky"]); writeln(respuesta);
 
 	if(respuesta.error)
 	{

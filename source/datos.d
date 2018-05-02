@@ -59,6 +59,8 @@ class Datos
     bool INFO = false;
     bool CHARLATAN = false;
 
+    bool sistema = false;
+
     string carpeta = "datos";
     string RUTA = "~/";
     string SISTEMA = "/";
@@ -315,7 +317,7 @@ class Datos
                 if(!_booleano(valor))
                 {
                     respuesta.error = true;
-                    respuesta.mensaje_error = "El valor no es booleano";
+                    respuesta.mensaje_error = "El valor [" ~ valor ~ "] no es booleano";
                     return respuesta;
                 }
 
@@ -330,7 +332,7 @@ class Datos
                 if(!_real(valor))
                 {
                     respuesta.error = true;
-                    respuesta.mensaje_error = "El valor no es un número real";
+                    respuesta.mensaje_error = "El valor [" ~ valor ~ "] no es un número real";
                     return respuesta;
                 }
 
@@ -345,7 +347,7 @@ class Datos
                 if(!_entero(valor))
                 {
                     respuesta.error = true;
-                    respuesta.mensaje_error = "El valor no es un número entero";
+                    respuesta.mensaje_error = "El valor [" ~ valor ~ "] no es un número entero";
                     return respuesta;
                 }
 
@@ -448,7 +450,7 @@ class Datos
         Respuesta respuesta;
 
         respuesta.error = true;
-        respuesta.mensaje_error = "No entiendo la consulta";
+        respuesta.mensaje_error = "No entiendo la consulta.";
 
         return respuesta;
     }
@@ -569,7 +571,7 @@ class Datos
             }
         }
 
-        respuesta.mensaje_error = "La clave proporcionada no existe.";
+        respuesta.mensaje_error = "La ruta proporcionada [" ~ ruta ~ "] no existe.";
         respuesta.error = true;
         return respuesta;
     }
@@ -583,7 +585,14 @@ class Datos
     {
         Respuesta respuesta;
 
-        if(miruta == "/" || (miruta.length < 4 && miruta[1] == ':'))
+        if(miruta is null || miruta.length < 1)
+        {
+            respuesta.mensaje_error = "Me has pasado una ruta inválida [" ~ miruta ~ "].";
+            respuesta.error = true;
+            return respuesta;
+        }
+
+        if(miruta == "/")
         {
             try
             {
@@ -591,10 +600,27 @@ class Datos
             }
             catch(Exception e)
             {
-                respuesta.mensaje_error = "No puedo crear la ruta tras llegar a la raíz.";
+                respuesta.mensaje_error = "No puedo crear la ruta [" ~ miruta ~ "] tras llegar a la raíz.";
                 respuesta.error = true;
                 return respuesta;
             }
+        }
+        else if((miruta.length < 4) && (miruta[1] == ':'))
+        {
+            try
+            {
+                std.file.mkdirRecurse(miruta);
+            }
+            catch(Exception e)
+            {
+                respuesta.mensaje_error = "No puedo crear la ruta [" ~ miruta ~ "] tras llegar a la raíz.";
+                respuesta.error = true;
+                return respuesta;
+            }
+        }
+        else if(miruta == "C:")
+        {
+            return respuesta;
         }
         else if(!exists(miruta))
         {
@@ -602,7 +628,7 @@ class Datos
 
             if(miruta == _miruta || _miruta == "/")
             {
-                respuesta.mensaje_error = "No puedo crear la ruta.";
+                respuesta.mensaje_error = "No puedo crear la ruta [" ~ _miruta ~ "].";
                 respuesta.error = true;
                 return respuesta;
             }
@@ -618,7 +644,7 @@ class Datos
             }
             catch(Exception e)
             {
-                respuesta.mensaje_error = "No puedo crear la ruta.";
+                respuesta.mensaje_error = "No puedo crear la ruta [" ~ miruta ~ "].";
                 respuesta.error = true;
                 return respuesta;
             }
@@ -626,11 +652,13 @@ class Datos
         }
         else if(isDir(miruta))
         {
-            respuesta.mensaje_error = "La clave proporcionada es un contenedor.";
+            respuesta.mensaje_error = "La ruta [" ~ miruta ~ "] es una carpeta.";
             return respuesta;
         }
 
-        assert(0);
+        respuesta.error = true;
+        respuesta.mensaje_error = "Error indeterminado al intentar crear una carpeta [" ~ miruta ~ "].";
+        return respuesta;
     }
 
     Respuesta borrado_recursivo(string raíz, string subdirectorio)
@@ -641,29 +669,29 @@ class Datos
         if(raíz is null || raíz.length < 1)
         {
             respuesta.error = true;
-            respuesta.mensaje_error = "El directorio raíz no es válido.";
+            respuesta.mensaje_error = "El directorio raíz [" ~ raíz ~ "] no es válido.";
             return respuesta;
         }
 
         if(subdirectorio is null || subdirectorio.length < 1)
         {
             respuesta.error = true;
-            respuesta.mensaje_error = "El subdirectorio no es válido.";
+            respuesta.mensaje_error = "El subdirectorio [" ~ subdirectorio ~ "] no es válido.";
             return respuesta;
         }
 
     // Si son iguales, he terminado
         if(raíz == subdirectorio)
         {
-            respuesta.mensaje_error = "El subdirectorio ha llegado a la raíz.";
+            respuesta.mensaje_error = "El subdirectorio [" ~ subdirectorio ~ "] ha llegado a la raíz [" ~ raíz ~ "].";
             return respuesta;
         }
 
     // La ruta del subdirectorio debe ser mayor que la de raíz
         if(raíz.length >= subdirectorio.length)
         {
-            respuesta.error = true;
-            respuesta.mensaje_error = "La ruta del subdirectorio debe ser más larga que la de la raíz.";
+            respuesta.error = false;
+            respuesta.mensaje_error = "La ruta del subdirectorio [" ~ subdirectorio ~ "] debe ser más larga que la de la raíz [" ~ raíz ~ "].";
             return respuesta;
         }
 
@@ -683,7 +711,7 @@ class Datos
         if(!existe)
         {
             respuesta.error = true;
-            respuesta.mensaje_error = "El directorio raíz no existe.";
+            respuesta.mensaje_error = "El directorio raíz [" ~ raíz ~ "] no existe.";
             return respuesta;
         }
         // Subdirectorio
@@ -699,7 +727,7 @@ class Datos
         if(!existe)
         {
             respuesta.error = true;
-            respuesta.mensaje_error = "El subdirectorio no existe.";
+            respuesta.mensaje_error = "El subdirectorio [" ~ subdirectorio ~ "] no existe.";
             return respuesta;
         }
         
@@ -707,7 +735,7 @@ class Datos
         if(!startsWith(subdirectorio, raíz))
         {
             respuesta.error = true;
-            respuesta.mensaje_error = "La ruta de la raíz debe estar incluida en el subdirectorio.";
+            respuesta.mensaje_error = "La ruta de la raíz [" ~ raíz ~ "] debe estar incluida en el subdirectorio [" ~ subdirectorio ~ "].";
             return respuesta;
         }
 
@@ -721,7 +749,7 @@ class Datos
 
         if(archivos != 0)
         {
-            respuesta.mensaje_error = "\"" ~ subdirectorio ~ "\" no está vacío: [" ~ to!string(archivos) ~ "] archivos.";
+            respuesta.mensaje_error = "El subdirectorio [" ~ subdirectorio ~ "] no está vacío: [" ~ to!string(archivos) ~ "] archivos.";
             return respuesta;
         }
 
@@ -734,7 +762,7 @@ class Datos
         catch(Exception e)
         {
             respuesta.error = true;
-            respuesta.mensaje_error = "No he podido borrar el subdirectorio.";
+            respuesta.mensaje_error = "No he podido borrar el subdirectorio [" ~ subdirectorio ~ "].";
             return respuesta;
         }
 
@@ -753,7 +781,8 @@ class Datos
 
             if(txt == "sis")
             {
-                miruta = SISTEMA ~ "/";
+
+                RUTA = miruta = SISTEMA ~ "/";
                 clave = clave[i+1..$];
             }
             else
@@ -801,7 +830,7 @@ class Datos
 
         if((!exists(miruta)))
         {
-            respuesta.mensaje_error = "La clave proporcionada no existe.";
+            respuesta.mensaje_error = "La clave [" ~ clave ~ "] no existe.";
             respuesta.error = true;
             return respuesta;
         }
@@ -813,7 +842,7 @@ class Datos
                 return lee(clave);
             }
             
-            respuesta.mensaje_error = "No puedo acceder a la clave.";
+            respuesta.mensaje_error = "No puedo acceder a la clave [" ~ clave ~ "].";
             respuesta.error = true;
             return respuesta;
         }
@@ -836,19 +865,26 @@ class Datos
     {
         Respuesta respuesta;
 
+        if(clave is null)
+        {
+            respuesta.mensaje_error = "Clave inválida.";
+            respuesta.error = true;
+            return respuesta;
+        }
+
         if(clave.length > 0)
         {
             string miruta = interpreta_clave(clave);
 
             if(!exists(miruta))
             {
-                respuesta.mensaje_error = "La clave proporcionada no existe.";
+                respuesta.mensaje_error = "La clave [" ~ clave ~ "] no existe.";
                 respuesta.error = true;
                 return respuesta;
             }
             else if(isDir(miruta))
             {
-                respuesta.mensaje_error = "La clave proporcionada es un contenedor.";
+                respuesta.mensaje_error = "La clave [" ~ clave ~ "] es un contenedor.";
                 respuesta.error = true;
                 return respuesta;
             }
@@ -858,7 +894,7 @@ class Datos
 
                 if(contenido is null || contenido.length < 1)
                 {
-                    respuesta.mensaje_error = "La clave está vacía.";
+                    respuesta.mensaje_error = "La clave [" ~ clave ~ "] está vacía.";
                     respuesta.error = true;
                     return respuesta;
                 }
@@ -871,7 +907,7 @@ class Datos
 
                 if(r.tipo == Tipo.NADA)
                 {
-                    respuesta.mensaje_error = "Tipo no reconocido.";
+                    respuesta.mensaje_error = "Tipo [" ~ to!string(r.tipo) ~ "] no reconocido.";
                     respuesta.error = true;
                     return respuesta;
                 }
@@ -881,7 +917,7 @@ class Datos
                 return respuesta;
             }
 
-            respuesta.mensaje_error = "Clave inválida.";
+            respuesta.mensaje_error = "Clave [" ~ clave ~ "] inválida.";
             respuesta.error = true;
             return respuesta;
         }
@@ -917,7 +953,7 @@ class Datos
             if(existe)
             {
                 respuesta = lee(clave);
-                respuesta.mensaje_error = "La clave proporcionada ya existe.";
+                respuesta.mensaje_error = "La clave [" ~ clave ~ "] ya existe.";
                 respuesta.error = true;
                 return respuesta;
             }
@@ -937,7 +973,7 @@ class Datos
                     }
                     catch(Exception e)
                     {
-                        respuesta.mensaje_error = "Error al crear la clave e intentar escribir el valor.";
+                        respuesta.mensaje_error = "Error al crear la clave [" ~ clave ~ "] e intentar escribir el valor [" ~ valor ~ "].";
                         respuesta.error = true;
                         return respuesta;
                     }
@@ -952,7 +988,7 @@ class Datos
                     }
                     catch(Exception e)
                     {
-                        respuesta.mensaje_error = "Error al crear la clave e intentar escribir el valor.";
+                        respuesta.mensaje_error = "Error al crear la clave [" ~ clave ~ "] e intentar escribir el valor [" ~ valor ~ "].";
                         respuesta.error = true;
                         return respuesta;
                     }
@@ -967,7 +1003,7 @@ class Datos
                     }
                     catch(Exception e)
                     {
-                        respuesta.mensaje_error = "Error al crear la clave e intentar escribir el valor.";
+                        respuesta.mensaje_error = "Error al crear la clave [" ~ clave ~ "] e intentar escribir el valor [" ~ valor ~ "].";
                         respuesta.error = true;
                         return respuesta;
                     }
@@ -982,7 +1018,7 @@ class Datos
                     }
                     catch(Exception e)
                     {
-                        respuesta.mensaje_error = "Error al crear la clave e intentar escribir el valor.";
+                        respuesta.mensaje_error = "Error al crear la clave [" ~ clave ~ "] e intentar escribir el valor [" ~ valor ~ "].";
                         respuesta.error = true;
                         return respuesta;
                     }
@@ -991,7 +1027,7 @@ class Datos
                     break;
 
                 default:
-                    respuesta.mensaje_error = "No reconozco el tipo '" ~ to!string(tipo) ~ "'.";
+                    respuesta.mensaje_error = "No reconozco el tipo [" ~ to!string(tipo) ~ "].";
                     respuesta.error = true;
                     return respuesta;
             }
@@ -1057,20 +1093,28 @@ class Datos
 
             if((!exists(miruta)))
             {
-                respuesta.mensaje_error = "La clave proporcionada no existe.";
+                respuesta.mensaje_error = "La clave [" ~ clave ~ "] no existe.";
                 respuesta.error = true;
                 return respuesta;
             }
 
             if(isFile(miruta))
             {
-                remove(miruta);
+                try
+                {
+                    remove(miruta);
+                }
+                catch(Exception e)
+                {
+                    respuesta.mensaje_error = "Error al intentar borrar la clave [" ~ clave ~ "].";
+                    respuesta.error = true;
+                    return respuesta;
+                }
 
                 int archivos = 0;
                 
                 foreach (string name; dirEntries(obtén_directorio_superior(miruta), SpanMode.shallow))
                 {
-                    writeln(name);
                     archivos++;
                 }
 
@@ -1085,7 +1129,7 @@ class Datos
             }
             else
             {
-                respuesta.mensaje_error = "No puedo acceder a la clave.";
+                respuesta.mensaje_error = "No puedo acceder a la clave [" ~ clave ~ "].";
                 respuesta.error = true;
                 return respuesta;
             }
@@ -1133,35 +1177,35 @@ class Datos
             respuesta = lee(antigua);
             if(respuesta.error)
             {
-                respuesta.mensaje_error ~= " No he podico obtener la clave antigua.";
+                respuesta.mensaje_error ~= " No he podico obtener la clave antigua [" ~ antigua ~ "].";
                 return respuesta;
             }
 
             if(respuesta.dato.length < 1)
             {
                 respuesta.error = true;
-                respuesta.mensaje_error = "No he podico obtener la clave antigua.";
+                respuesta.mensaje_error = "No he podico obtener la clave antigua [" ~ antigua ~ "].";
                 return respuesta;
             }
             
             respuesta = pon(nueva, respuesta.dato[0].valor, respuesta.dato[0].tipo);
             if(respuesta.error)
             {
-                respuesta.mensaje_error ~= " No he podico crear la clave nueva.";
+                respuesta.mensaje_error ~= " No he podico crear la clave nueva [" ~ nueva ~ "].";
                 return respuesta;
             }
 
             respuesta = lee(nueva);
             if(respuesta.error)
             {
-                respuesta.mensaje_error ~= " No he podico comprobar la clave antigua.";
+                respuesta.mensaje_error ~= " No he podico comprobar la clave nueva [" ~ nueva ~ "].";
                 return respuesta;
             }
 
             respuesta = borra(antigua);
             if(respuesta.error)
             {
-                respuesta.mensaje_error ~= " No he podico borrar la clave antigua.";
+                respuesta.mensaje_error ~= " No he podico borrar la clave antigua [" ~ antigua ~ "].";
                 return respuesta;
             }
 
@@ -1169,7 +1213,7 @@ class Datos
         }
         else
         {
-            respuesta.mensaje_error = "No he podido renombrar la clave.";
+            respuesta.mensaje_error = "No he podido renombrar la clave [" ~ antigua ~ "].";
             respuesta.error = true;
             return respuesta;
         }
@@ -1219,6 +1263,7 @@ class Datos
                 if(INFO)
                 {
                     writeln("ERROR: Esperaba un cierre de comilla doble [\"].");
+                    writeln("Contenido: [" ~ contenido ~ "]");
                 }
 
                 return false;
