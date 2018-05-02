@@ -1,27 +1,27 @@
-# config
-`config` es un programa para línea de comandos que sirve para gestionar
-información o configuraciones. Su interfaz está completamente en Español.
+# datos
+`datos` es un programa para línea de comandos que sirve para gestionar
+información y/o configuraciones. Su interfaz está completamente en Español.
 
 
 ## Resumen:
-El comando `config` interpreta y almacena la información como **parejas de claves-valores**.
+El comando `datos` interpreta y almacena la información como **parejas de claves-valores**.
 La lista da claves se organiza jerárquicamente, formando un árbol. Como almacén de la
-información, `config` usa el sistema de archivos habitual de nuestro ordenador.
+información, `datos` usa el sistema de archivos habitual de nuestro ordenador.
 Una clave `abc.def.ghi` se tratará como el archivo `abc/def/ghi`.
 Como inconveniente, cada archivo final se usará para almacenar el valor de una única
 clave. Por este motivo, la densidad de la información en el disco suele ser baja.
 
 Hay 2 posibles almacenes de información:
-1. Global o del sistema, en `/cfg`
-2. Local o del usuario actual, en `~/.config`
+1. Global o del sistema, en `/datos`
+2. Local o del usuario actual, en `~/.datos`
 
 De forma predeterminada se asume que el usuario accede a su información local:
-`config lee usr.nombre` accede al archivo `~/.config/usr/nombre` y nos muestra
+`datos lee usr.nombre` accede al archivo `~/.datos/usr/nombre` y nos muestra
 su contenido.
 
 Si se pretende acceder a la configuración global o del sistema, el primer nombre
 de la clave debe ser `sis`:
-`config ls sis.hostname` accede al archivo `/cfg/hostname` y nos muestra su
+`datos ls sis.hostname` accede al archivo `/datos/hostname` y nos muestra su
 contenido.
 
 Hay 4 posibles tipos de datos:
@@ -30,7 +30,7 @@ Hay 4 posibles tipos de datos:
 3. `entero`   => `-288`, `0`, `365` 
 4. `real`     => `3.14`, `9.1234E-18`
 
-`config` puede deducir el tipo a partir del dato que has introducido, pero si
+`datos` puede deducir el tipo a partir del dato que has introducido, pero si
 precisas establecer el tipo por tí mismo, puedes usar las siguientes opciones:
 1. texto    `-t` o `--texto`
 2. booleano `-b` o `--booleano`
@@ -39,29 +39,29 @@ precisas establecer el tipo por tí mismo, puedes usar las siguientes opciones:
 
 
 ## Compilación e instalación:
-`config` se ha desarrollado con el lenguaje `D`, usando el gestor de proyectos
+`datos` se ha desarrollado con el lenguaje `D`, usando el gestor de proyectos
 `dub`. Para compilar el proyecto necesitas instalar un compilador de `D` (por
 ejemplo `dmd`, `ldc` o `gdc`) y el gestor de proyectos `dub`.
 
 Una vez hayas instalado estos requisitos, ejecuta `dub build --build=release --force`.
 `dub` descargará la única dependencia del proyecto, `docopt.d`, para después
 ejecutar el compilador que hayas instalado para generarar un único ejecutable,
-llamado `config`.
+llamado `datos`.
 
-Para instalar `config`, mueve el ejecutable a una carpeta listada en tu variable
+Para instalar `datos`, mueve el ejecutable a una carpeta listada en tu variable
 de entorno `PATH`.
 
 
 ## Uso:
 ```
-config [--info | --charlatan] (lista | ls) <clave>
-config [--info | --charlatan] lee <clave>
-config [--info | --charlatan] tipo <clave>
-config [--info | --charlatan] pon <clave> <valor> [--texto | --booleano | --entero | --real]
-config [--info | --charlatan] (mueve | mv | renombra | rnm) <clave-antigua> <clave-nueva>
-config [--info | --charlatan] (borra | br | quita | qt) <clave>
-config [--charlatan] --ayuda
-config [--charlatan] --version
+datos [--info | --charlatan] (lista | ls) <clave>
+datos [--info | --charlatan] lee <clave>
+datos [--info | --charlatan] tipo <clave>
+datos [--info | --charlatan] pon <clave> <valor> [--texto | --booleano | --entero | --real]
+datos [--info | --charlatan] (mueve | mv | renombra | rnm) <clave-antigua> <clave-nueva>
+datos [--info | --charlatan] (borra | br | quita | qt) <clave>
+datos [--charlatan] --ayuda
+datos [--charlatan] --version
 ```
 
 #### Opciones:
@@ -96,34 +96,34 @@ config [--charlatan] --version
 #### Argumentos:
 ```
  <clave>         Si <clave> comienza por 'sis', se accede a las claves
-                 globales del sistema, en `/cfg`.
+                 globales del sistema, en `/datos`.
                  En cualquier otro caso, se accede a las claves del usuario
-                 actual, en `~/.config`.
+                 actual, en `~/.datos`.
 
  <valor>         El dato que desees. Se interpretará como uno de los 4 tipos:
                  Texto | Entero | Real | Booleano.
 ```
 
 ## Ejemplos:
-`config ls sis` Lista todas las claves globales, en `/cfg/`.
+`datos ls sis` Lista todas las claves globales, en `/datos/`.
 
-`config lista` Lista todas las claves locales, en `~/.config/`.
+`datos lista` Lista todas las claves locales, en `~/.datos/`.
 
-`config lee sis.fecha` Muestra el contenido de la clave guardada en `/cfg/fecha`.
+`datos lee sis.fecha` Muestra el contenido de la clave guardada en `/datos/fecha`.
 
-`config ls sis.fecha` Lista todas las claves bajo `sis.fecha`. Si `sis.fecha` es una clave "final", se comporta como `config lee sis.fecha`.
+`datos ls sis.fecha` Lista todas las claves bajo `sis.fecha`. Si `sis.fecha` es una clave "final", se comporta como `datos lee sis.fecha`.
 
-`config pon sis.hostname nombredelsistema` Guarda `"nombredelsistema"` en `/cfg/hostname`.
+`datos pon sis.hostname nombredelsistema` Guarda `"nombredelsistema"` en `/datos/hostname`.
 
-`config pon usr.askpwd sí` Guarda el booleano `sí` (tipo automático) en `~/.config/usr/adkpwd`.
+`datos pon usr.askpwd sí` Guarda el booleano `sí` (tipo automático) en `~/.datos/usr/adkpwd`.
 
-`config pon usr.askpwd sí -b` Guarda el booleano `sí` en `~/.config/usr/adkpwd`.
+`datos pon usr.askpwd sí -b` Guarda el booleano `sí` en `~/.datos/usr/adkpwd`.
 
-`config pon usr.askpwd sí -t` Guarda el texto `"sí"` en `~/.config/usr/adkpwd`
+`datos pon usr.askpwd sí -t` Guarda el texto `"sí"` en `~/.datos/usr/adkpwd`
 
-`config mv usr.askpwd usr.pwd` Cambia el nombre de `usr.askpwd` por el de `usr.pwd`.
+`datos mv usr.askpwd usr.pwd` Cambia el nombre de `usr.askpwd` por el de `usr.pwd`.
 
-`config borra usr.pwd` Borra la clave `usr.pwd`.
+`datos borra usr.pwd` Borra la clave `usr.pwd`.
 
 
 ## Licencia:

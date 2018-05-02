@@ -1,5 +1,7 @@
 {
-	"name": "config",
+	"name": "datos",
+	"mainSourceFile": "source/inicio.d",
+	"targetType": "executable",
 	"authors": [
 		"Eduardo"
 	],
