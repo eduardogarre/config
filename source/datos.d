@@ -10,6 +10,16 @@ import std.stdio;
 import std.string;
 import std.uni; // isAlpha(), isNumber(), isAlphaNum(), isWhite()
 
+class Ruta
+{
+    string ruta;
+
+    this(string r)
+    {
+        this.ruta = r;
+    }
+}
+
 string textifica(Tipo t)
 {
     switch(t)
@@ -69,7 +79,7 @@ class Datos
 
     class Nodo
     {
-        private string miruta;
+        private string mi_ruta;
 
         Nodo[] ramas;
 
@@ -77,32 +87,32 @@ class Datos
         {
             if((nombre == null) || (nombre.length < 1))
             {
-                miruta = raíz;
+                mi_ruta = raíz;
             }
             else if((raíz == null) || (raíz.length < 1))
             {
-                miruta = nombre;
+                mi_ruta = nombre;
             }
             else
             {
-                miruta = raíz ~ "/" ~ nombre;
+                mi_ruta = raíz ~ "/" ~ nombre;
             }
         }
 
         string ruta()
         {
-            return miruta;
+            return mi_ruta;
         }
 
         string clave()
         {
             int i;
 
-            if(miruta.length > RUTA.length)
+            if(mi_ruta.length > RUTA.length)
             {
                 for(i=0; (i<RUTA.length); i++)
                 {
-                    if(RUTA[i] != miruta[i])
+                    if(RUTA[i] != mi_ruta[i])
                     {
                         return null;
                     }
@@ -110,7 +120,7 @@ class Datos
 
                 i++;
 
-                string _ruta = miruta[i..$];
+                string _ruta = mi_ruta[i..$];
 
                 // quitar barras invertidas
                 _ruta = tr(_ruta, "\\", ".");
@@ -126,7 +136,36 @@ class Datos
         }
     }
 
+    this(Ruta ruta)
+    {
+        if(ruta !is null)
+        {
+            if(ruta.ruta !is null)
+            {
+                if(ruta.ruta.length > 1)
+                {
+                    RUTA = SISTEMA = ruta.ruta;
+                    return;
+                }
+            }
+        }
+
+        crea_carpetas();
+    }
+
+    this(string subcarpeta)
+    {
+        carpeta ~= "/" ~ subcarpeta;
+
+        crea_carpetas();
+    }
+
     this()
+    {
+        crea_carpetas();
+    }
+
+    void crea_carpetas()
     {
         RUTA ~= "." ~ carpeta;
         SISTEMA ~= carpeta;
@@ -180,7 +219,7 @@ class Datos
         <valor>         Texto | Entero | Real | Booleano.
         ";
 
-        auto argumentos = docopt.docopt(doc, args[1..$], false, "ctl 1.0");
+        auto argumentos = docopt.docopt(doc, args[0..$], false, "ctl 1.0");
 
         if(argumentos["--info"].isTrue())
         {
@@ -578,17 +617,30 @@ class Datos
 
     string obtén_directorio_superior(string miruta)
     {
-        return miruta[0..(lastIndexOf(miruta, '/'))];
+        if(miruta.length < 2)
+        {
+            return "/";
+        }
+        else
+        {
+            return miruta[0..(lastIndexOf(miruta, '/'))];
+        }
     }
 
     Respuesta crea_directorio(string miruta)
     {
         Respuesta respuesta;
 
-        if(miruta is null || miruta.length < 1)
+        if(miruta is null)
         {
             respuesta.mensaje_error = "Me has pasado una ruta inválida [" ~ miruta ~ "].";
             respuesta.error = true;
+            return respuesta;
+        }
+        else if(miruta.length < 1)
+        {
+            respuesta.mensaje_error = "Me has pasado una ruta vacía [" ~ miruta ~ "].";
+            respuesta.error = false;
             return respuesta;
         }
 
@@ -601,9 +653,17 @@ class Datos
             catch(Exception e)
             {
                 respuesta.mensaje_error = "No puedo crear la ruta [" ~ miruta ~ "] tras llegar a la raíz.";
-                respuesta.error = true;
+                respuesta.error = false;
                 return respuesta;
             }
+        }
+        else if(miruta == "C:" || miruta == "c:")
+        {
+            return respuesta;
+        }
+        else if(exists(miruta))
+        {
+            return respuesta;
         }
         else if((miruta.length < 4) && (miruta[1] == ':'))
         {
@@ -614,13 +674,9 @@ class Datos
             catch(Exception e)
             {
                 respuesta.mensaje_error = "No puedo crear la ruta [" ~ miruta ~ "] tras llegar a la raíz.";
-                respuesta.error = true;
+                respuesta.error = false;
                 return respuesta;
             }
-        }
-        else if(miruta == "C:")
-        {
-            return respuesta;
         }
         else if(!exists(miruta))
         {

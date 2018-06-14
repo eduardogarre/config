@@ -23,15 +23,30 @@ int main(string[] args)
 {
 	Respuesta respuesta;
 	
-	respuesta = new Datos().ejecuta(["", "pon", "hola.k.ase.x.ay.ask", "sí", "-b"]); writeln(respuesta);
-	respuesta = new Datos().ejecuta(["", "lee", "hola.k.ase.x.ay.ask"]); writeln(respuesta);
-	respuesta = new Datos().ejecuta(["", "mv", "hola.k.ase.x.ay.ask", "hola.k.ase.asky"]); writeln(respuesta);
-	respuesta = new Datos().ejecuta(["", "qt", "hola.k.ase.asky"]); writeln(respuesta);
+	// Ejemplos con carpetas predeterminadas (/datos y ~/.datos)
+	respuesta = new Datos().ejecuta(["pon", "hola.k.ase.x.ay.ask", "sí", "-b"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["lee", "hola.k.ase.x.ay.ask"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["mv", "hola.k.ase.x.ay.ask", "hola.k.ase.asky"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["qt", "hola.k.ase.asky"]); writeln(respuesta);
 
-	respuesta = new Datos().ejecuta(["", "pon", "sis.hola.k.ase.x.ay.ask", "sí", "-b"]); writeln(respuesta);
-	respuesta = new Datos().ejecuta(["", "lee", "sis.hola.k.ase.x.ay.ask"]); writeln(respuesta);
-	respuesta = new Datos().ejecuta(["", "mv", "sis.hola.k.ase.x.ay.ask", "hola.k.ase.asky"]); writeln(respuesta);
-	respuesta = new Datos().ejecuta(["", "qt", "sis.hola.k.ase.asky"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["pon", "sis.hola.k.ase.x.ay.ask", "sí", "-b"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["lee", "sis.hola.k.ase.x.ay.ask"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["mv", "sis.hola.k.ase.x.ay.ask", "hola.k.ase.asky"]); writeln(respuesta);
+	respuesta = new Datos().ejecuta(["qt", "sis.hola.k.ase.asky"]); writeln(respuesta);
+
+	// Ejemplos definiendo una subcarpeta (/datos/'subcarpeta' y ~/.datos/'subcarpeta')
+	respuesta = new Datos("hola").ejecuta(["pon", "hola.k.ase.x.ay.sub.hola", "sí", "-b"]); writeln(respuesta);
+	respuesta = new Datos("hola").ejecuta(["lee", "hola.k.ase.x.ay.sub.hola"]); writeln(respuesta);
+	respuesta = new Datos("hola").ejecuta(["qt", "hola.k.ase.x.ay.sub.hola"]); writeln(respuesta);
+
+	// Ejemplos definiendo una ruta propia
+	respuesta = new Datos(new Ruta("c:/hola")).ejecuta(["pon", "hola.k.ase.x.ay.c.hola", "sí", "-b"]); writeln(respuesta);
+	respuesta = new Datos(new Ruta("c:/hola")).ejecuta(["lee", "hola.k.ase.x.ay.c.hola"]); writeln(respuesta);
+	respuesta = new Datos(new Ruta("c:/hola")).ejecuta(["qt", "hola.k.ase.x.ay.c.hola"]); writeln(respuesta);
+
+	respuesta = new Datos(new Ruta("/adios")).ejecuta(["pon", "hola.k.ase.x.ay.l.adios", "sí", "-b"]); writeln(respuesta);
+	respuesta = new Datos(new Ruta("/adios")).ejecuta(["lee", "hola.k.ase.x.ay.l.adios"]); writeln(respuesta);
+	respuesta = new Datos(new Ruta("/adios")).ejecuta(["qt", "hola.k.ase.x.ay.l.adios"]); writeln(respuesta);
 
 	if(respuesta.error)
 	{
